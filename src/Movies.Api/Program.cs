@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Movies.Api.Handlers;
+using Movies.Api.Modules;
+using Movies.Application;
 using Movies.Infrastructure;
 using Scalar.AspNetCore;
 
@@ -14,11 +17,20 @@ builder.Services.AddDbContext<MoviesDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DbConnectionString"));
 });
 
+builder.Services.AddApplication();
+builder.Services.AddExceptionHandler<ExceptionHandler>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "v1");
+    });
+    
     app.MapScalarApiReference(options =>
         {
             options
@@ -28,4 +40,6 @@ if (app.Environment.IsDevelopment())
         });
 }
 
+app.UseExceptionHandler(_ => { });
+app.AddMoviesEndpoints();
 app.Run();
