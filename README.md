@@ -1,9 +1,41 @@
-# 🎬 .NET 10 + React Full‑Stack Movies App  
+# 🎬 Full-Stack Movies Application (.NET 10 & React + Vite)
 
-### A modern CRUD (Create, Read, Update, Delete) application for managing movies, built with .NET 10 Minimal API and React.
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)]()
+[![.NET](https://img.shields.io/badge/.NET-10-blue)]()
+[![Node](https://img.shields.io/badge/Node-20+-green)]()
 
-A modern **CRUD application** for managing movies, built with **.NET 10 Minimal API** and **React (Vite)**.  
+A modern **CRUD application** for managing movies, built with **ASP.NET Core Minimal API (.NET 10)** and **React (Vite + TypeScript)**.  
 This project demonstrates clean architecture, robust data management, and a responsive frontend powered by modern web technologies.
+
+---
+
+## 📂 Project Structure
+This project is organized as a monorepo with separate directories for the client-side (React) and server-side (.NET) applications.
+
+```plaintext
+/movies-app/
+├─ client/                  # React + Vite frontend
+│  ├─ src/
+│  │  ├─ api/               # API connector (Axios)
+│  │  ├─ components/        # UI components (MovieForm, MovieTable, etc.)
+│  │  ├─ interceptors/      # Axios interceptors
+│  │  ├─ models/            # TypeScript DTOs and response models
+│  │  ├─ routers/           # React Router configuration
+│  │  ├─ App.tsx            # Root component
+│  │  └─ main.tsx           # Entry point
+│  ├─ vite.config.ts        # Vite configuration
+│  └─ package.json
+├─ src/                     # .NET backend
+│  ├─ Movies.Api/           # Entry point for HTTP endpoints
+│  ├─ Movies.Application/   # Business logic, CQRS handlers
+│  ├─ Movies.Contracts/     # DTOs and shared contracts
+│  ├─ Movies.Domain/        # Core entities and domain rules
+│  ├─ Movies.Infrastructure/# EF Core, persistence, external services
+│  └─ Movies.Tests/         # Unit/integration tests (TODO)
+├─ Movies.sln               # Solution file
+└─ README.md
+```
 
 ---
 
@@ -11,8 +43,8 @@ This project demonstrates clean architecture, robust data management, and a resp
 - **CRUD Operations** → Create, Read, Update, Delete movies  
 - **API Documentation** → Interactive Swagger/OpenAPI explorer
 - **Frontend:** Dynamic user interface for viewing, adding, editing, and deleting movie records using React.
-- **Backend:** A RESTful API built with .NET 10 Minimal API to handle all business logic and data operations. 
-- **Data Persistence:** Lightweight database solution with options for both **SQLite** (for persistent data) and **In-Memory** (for ephemeral data during development/testing) storage.
+- **Backend:** RESTful API built with ASP.NET Core Minimal API (.NET 10) to handle all business logic and data operations. 
+- **Data Persistence:** Lightweight database solution **SQLite** (for persistent data).
 - **Scalable Architecture** → Separation of concerns across Domain, Application, Infrastructure, and API layers 
 
 ---
@@ -85,4 +117,3 @@ Once both backend and frontend are running:
 - **Testing** → Backend (xUnit tests for Application & Domain logic) and Frontend(React Testing Library + Jest)
 
 ---
-
