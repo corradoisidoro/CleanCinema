@@ -1,4 +1,8 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Movies.Api.Handlers;
 using Movies.Api.Modules;
 using Movies.Application;
@@ -15,6 +19,14 @@ builder.Services.AddOpenApi(options =>
 builder.Services.AddDbContext<MoviesDbContext>(options =>
 {
     options.UseSqlite(builder.Configuration.GetConnectionString("DbConnectionString"));
+});
+
+builder.Services.AddCors(opt=>
+{
+    opt.AddPolicy("CorsPolicy", policyBuilder =>
+    {
+        policyBuilder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:5173");
+    });
 });
 
 builder.Services.AddApplication();
@@ -41,5 +53,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseExceptionHandler(_ => { });
+app.UseCors("CorsPolicy");
 app.AddMoviesEndpoints();
 app.Run();
