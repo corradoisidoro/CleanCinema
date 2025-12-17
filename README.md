@@ -14,7 +14,7 @@ This project demonstrates clean architecture, robust data management, and a resp
 This project is organized as a monorepo with separate directories for the client-side (React) and server-side (.NET) applications.
 
 ```plaintext
-/movies-app/
+/cine-stack/
 ├─ client/                  # React + Vite frontend
 │  ├─ src/
 │  │  ├─ api/               # API connector (Axios)
@@ -71,8 +71,8 @@ You will need the following software installed on your machine:
 First, clone the repository to your local machine using Git and navigate into the project directory:
 
 ```bash
-git clone https://github.com/your-username/movies-app.git
-cd movies-app
+git clone https://github.com/your-username/cine-stack.git
+cd cine-stack
 ```
 
 ---
