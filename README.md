@@ -1,11 +1,11 @@
-# 🎬 Full-Stack Movies Application (.NET 10 & React + Vite)
+# 🎬 CineStack
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)]()
 [![.NET](https://img.shields.io/badge/.NET-10-blue)]()
 [![Node](https://img.shields.io/badge/Node-20+-green)]()
 
-A modern **CRUD application** for managing movies, built with **ASP.NET Core Minimal API (.NET 10)** and **React (Vite + TypeScript)**.  
+**CineStack** is a modern, full-stack CRUD solution for managing movies, built with **ASP.NET Core Minimal API (.NET 10)** and **React (Vite + TypeScript)**.  
 This project demonstrates clean architecture, robust data management, and a responsive frontend powered by modern web technologies.
 
 ---
