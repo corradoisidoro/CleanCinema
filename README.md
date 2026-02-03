@@ -1,12 +1,12 @@
-# 🎬 CineStack
+# 🎬 CineStack – Full-Stack Reference Implementation
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)]()
 [![.NET](https://img.shields.io/badge/.NET-10-blue)]()
 [![Node](https://img.shields.io/badge/Node-20+-green)]()
 
-**CineStack** is a modern, full-stack CRUD solution for managing movies, built with **ASP.NET Core Minimal API (.NET 10)** and **React (Vite + TypeScript)**.  
-This project demonstrates clean architecture, robust data management, and a responsive frontend powered by modern web technologies.
+This project demonstrates a small but production-minded system built with  **ASP.NET Core Minimal API (.NET 10)** and **React (Vite + TypeScript)**. 
+The focus is on clean architecture, separation of concerns, and maintainability rather than feature completeness.
 
 ---
 
@@ -53,7 +53,7 @@ This project is organized as a monorepo with separate directories for the client
 - **Frontend:** React (Vite), TypeScript, Semantic UI, Axios
 - **Backend:** .NET 10 SDK, ASP.NET Core Minimal API, MediatR, Mapster, FluentValidation, Swagger, OpenAPI
 - **Database:** SQLite, Entity Framework Core
-
+- **Testing:** xUnit (backend) - **TODO**
 ---
 
 ## ⚙️ Setup Instructions
