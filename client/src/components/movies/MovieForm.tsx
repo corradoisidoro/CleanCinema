@@ -1,6 +1,6 @@
 import { useEffect, useState, type ChangeEvent } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { Button, Form, Segment } from "semantic-ui-react";
+import { Button, Form, Message, Segment } from "semantic-ui-react";
 import type { MovieDto } from "../../models/movieDto";
 import apiConnector from "../../api/apiConnector";
 
@@ -15,18 +15,31 @@ export default function MovieForm() {
     createdDate: undefined,
     category: "",
   });
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (id) {
-      apiConnector.getMovieById(id).then((movie) => setMovie(movie!));
+      apiConnector
+        .getMovieById(id)
+        .then((movie) => setMovie(movie!))
+        .catch(() => setError(`Could not load movie ${id}.`));
     }
   }, [id]);
 
-  function handleSubmit() {
-    if (!movie.id) {
-      apiConnector.createMovie(movie).then(() => navigate("/"));
-    } else {
-      apiConnector.editMovie(movie).then(() => navigate("/"));
+  async function handleSubmit() {
+    setIsSaving(true);
+    setError(null);
+    try {
+      if (!movie.id) {
+        await apiConnector.createMovie(movie);
+      } else {
+        await apiConnector.editMovie(movie);
+      }
+      navigate("/");
+    } catch {
+      setError("Could not save the movie. Check the fields and try again.");
+      setIsSaving(false);
     }
   }
 
@@ -43,12 +56,14 @@ export default function MovieForm() {
         onSubmit={handleSubmit}
         autoComplete="off"
         className="ui inverted form"
+        loading={isSaving}
       >
         <Form.Input
           placeholder="Title"
           name="title"
           value={movie.title}
           onChange={handleInputChange}
+          disabled={isSaving}
         ></Form.Input>
 
         <Form.TextArea
@@ -56,6 +71,7 @@ export default function MovieForm() {
           name="description"
           value={movie.description}
           onChange={handleInputChange}
+          disabled={isSaving}
         ></Form.TextArea>
 
         <Form.Input
@@ -63,9 +79,19 @@ export default function MovieForm() {
           name="category"
           value={movie.category}
           onChange={handleInputChange}
+          disabled={isSaving}
         ></Form.Input>
 
-        <Button floated="right" positive type="submit" content="Submit" />
+        {error && <Message negative>{error}</Message>}
+
+        <Button
+          floated="right"
+          positive
+          type="submit"
+          content="Submit"
+          loading={isSaving}
+          disabled={isSaving}
+        />
         <Button
           as={NavLink}
           to="/"
@@ -73,6 +99,7 @@ export default function MovieForm() {
           positive
           type="button"
           content="Cancel"
+          disabled={isSaving}
         />
       </Form>
     </Segment>
