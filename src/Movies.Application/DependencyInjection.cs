@@ -19,6 +19,7 @@ public static class DependencyInjection
         
         MappingConfig.Configure();
         var config = TypeAdapterConfig.GlobalSettings;
+        config.RequireExplicitMapping = true;
         config.Scan(Assembly.GetExecutingAssembly());
         services.AddSingleton(config);
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
