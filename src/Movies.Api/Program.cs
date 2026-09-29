@@ -36,22 +36,31 @@ builder.Services.AddExceptionHandler<ExceptionHandler>();
 
 var app = builder.Build();
 
+// Migrations run at startup so a fresh clone works with `dotnet run` alone.
+// Without this, SQLite creates an empty movies.db and the first request fails
+// with 'no such table: Movies' behind a generic 500. Convenient for a sample;
+// a real deployment would migrate as a deploy step, not on every process start.
+await using (var scope = app.Services.CreateAsyncScope())
+{
+    await scope.ServiceProvider.GetRequiredService<MoviesDbContext>().Database.MigrateAsync();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    
+
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/openapi/v1.json", "v1");
     });
-    
+
     app.MapScalarApiReference(options =>
-        {
-            options
-                .WithTitle("Movies.Api")
-                .WithTheme(ScalarTheme.Mars)
-                .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.Http);
-        });
+    {
+        options
+            .WithTitle("Movies.Api")
+            .WithTheme(ScalarTheme.Mars)
+            .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.Http);
+    });
 }
 
 app.UseExceptionHandler(_ => { });
