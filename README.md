@@ -1,5 +1,6 @@
 # 🎬 CleanCinema – Full-Stack Clean Architecture Reference
 
+[![CI](https://github.com/corradoisidoro/CleanCinema/actions/workflows/ci.yml/badge.svg)](https://github.com/corradoisidoro/CleanCinema/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-10-blue)](https://dotnet.microsoft.com)
 [![Node](https://img.shields.io/badge/Node-20+-green)](https://nodejs.org)
@@ -38,8 +39,9 @@ every layer end to end without wading through boilerplate.
 │  ├─ Movies.Application/      # CQRS handlers, validation, mappings
 │  ├─ Movies.Contracts/        # DTOs and responses
 │  ├─ Movies.Domain/           # Entities
-│  ├─ Movies.Infrastructure/   # EF Core, repositories, migrations
+│  ├─ Movies.Infrastructure/   # EF Core context, migrations
 │  └─ Movies.Tests/            # xUnit tests
+├─ global.json                 # Pinned .NET SDK version
 └─ Movies.sln
 ```
 
@@ -86,7 +88,6 @@ a central `IExceptionHandler`.
 - [.NET SDK 10.0](https://dotnet.microsoft.com)
 - [Node.js 20+](https://nodejs.org)
 - [Git](https://git-scm.com)
-- EF Core CLI: `dotnet tool install --global dotnet-ef`
 
 ### 1. Clone
 
@@ -101,11 +102,12 @@ From the repository root:
 
 ```bash
 dotnet restore
-dotnet ef database update -s .\src\Movies.Api\ -p .\src\Movies.Infrastructure\
 dotnet run --project ./src/Movies.Api
 ```
 
-`movies.db` is created in the API project directory.
+`movies.db` is created in the API project directory and migrated on startup, so there is no
+separate database step. The EF Core CLI is only needed if you want to add a migration of your
+own: `dotnet tool install --global dotnet-ef`.
 
 ### 3. Frontend
 
@@ -124,16 +126,21 @@ npm run dev
 | Frontend | http://localhost:5173 |
 | API | http://localhost:5000/api/movies |
 | API reference (Scalar) | http://localhost:5000/scalar |
+| API reference (Swagger UI) | http://localhost:5000/swagger |
 
-The Scalar UI is only mapped in `Development`, which the default launch profile sets.
+Both API explorers are only mapped in `Development`, which the default launch profile sets.
 
 ### Verify
 
 ```bash
-dotnet build     # 0 warnings, 0 errors
-dotnet test      # 24 tests
+dotnet build                    # 0 warnings, 0 errors
+dotnet test                     # 24 tests
+cd client && npm run lint
 cd client && npm run build
 ```
+
+CI runs all four on every push, with `-warnaserror` on the .NET build, so the "0 warnings" claim
+is enforced rather than assumed.
 
 The tests run against a real SQLite database created per test, so handlers exercise actual
 persistence rather than a mocked data layer.
