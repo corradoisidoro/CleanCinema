@@ -1,6 +1,5 @@
 # 🎬 CleanCinema – Full-Stack Clean Architecture Reference
 
-[![CI](https://github.com/corradoisidoro/CleanCinema/actions/workflows/ci.yml/badge.svg)](https://github.com/corradoisidoro/CleanCinema/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-10-blue)](https://dotnet.microsoft.com)
 [![Node](https://img.shields.io/badge/Node-20+-green)](https://nodejs.org)
@@ -139,8 +138,8 @@ cd client && npm run lint
 cd client && npm run build
 ```
 
-CI runs all four on every push, with `-warnaserror` on the .NET build, so the "0 warnings" claim
-is enforced rather than assumed.
+All four pass on the current `main`. Adding `-warnaserror` to the build turns the "0 warnings"
+claim into something you can check rather than take on trust.
 
 The tests run against a real SQLite database created per test, so handlers exercise actual
 persistence rather than a mocked data layer.
