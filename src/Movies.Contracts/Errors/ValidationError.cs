@@ -2,6 +2,6 @@
 
 public class ValidationError
 {
-    public string Property {get; set;}
-    public string ErrorMessage {get; set;}
-}   
+    public required string Property {get; set;}
+    public required string ErrorMessage {get; set;}
+} 

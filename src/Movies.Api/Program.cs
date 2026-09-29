@@ -21,11 +21,13 @@ builder.Services.AddDbContext<MoviesDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DbConnectionString"));
 });
 
-builder.Services.AddCors(opt=>
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? ["http://localhost:5173"];
+
+builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("CorsPolicy", policyBuilder =>
     {
-        policyBuilder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:5173");
+        policyBuilder.AllowAnyHeader().AllowAnyMethod().WithOrigins(allowedOrigins);
     });
 });
 

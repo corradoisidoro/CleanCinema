@@ -6,10 +6,28 @@ namespace Movies.Api.Handlers;
 
 public class ExceptionHandler : IExceptionHandler
 {
+    private readonly ILogger<ExceptionHandler> _logger;
+
+    public ExceptionHandler(ILogger<ExceptionHandler> logger)
+    {
+        _logger = logger;
+    }
+
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         var problemDetails = CreateProblemDetails(exception);
         
+        if (problemDetails.Status >= StatusCodes.Status500InternalServerError)
+        {
+            _logger.LogError(exception, "Unhandled exception while processing {Method} {Path}",
+                httpContext.Request.Method, httpContext.Request.Path);
+        }
+        else
+        {
+            _logger.LogWarning(exception, "Request failed with status {StatusCode} for {Method} {Path}",
+                problemDetails.Status, httpContext.Request.Method, httpContext.Request.Path);
+        }
+
         httpContext.Response.StatusCode = problemDetails.Status ?? StatusCodes.Status500InternalServerError;
         await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
         return true;

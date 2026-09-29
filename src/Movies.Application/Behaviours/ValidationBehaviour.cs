@@ -6,6 +6,7 @@ using Movies.Contracts.Exceptions;
 namespace Movies.Application.Behaviours;
 
 public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : notnull
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
@@ -34,8 +35,7 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
             throw new CustomValidationException(failures);
         }
 
-        var response = await next();
-        //var response = await next(cancellationToken);
+        var response = await next(cancellationToken);
         return response;
     }
 }

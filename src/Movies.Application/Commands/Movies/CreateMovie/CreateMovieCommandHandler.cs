@@ -20,7 +20,7 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, int
             Title = request.Title,
             Category = request.Category,
             Description = request.Description,
-            CreatedDate = DateTime.Now.ToUniversalTime()
+            CreatedDate = DateTime.UtcNow
         };
         
         await _moviesDbContext.Movies.AddAsync(movie, cancellationToken);
