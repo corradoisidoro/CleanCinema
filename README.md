@@ -9,12 +9,7 @@ TypeScript)**. It exists to be read — the whole application is ~1,500 lines, s
 every layer end to end without wading through boilerplate.
 
 > [!IMPORTANT]
-> **MediatR 14 is commercially licensed.** Lucky Penny Software grants it free to individuals,
-> open-source projects, non-profits, and organizations under $5M annual revenue — which covers
-> learning and non-commercial use, but **not** commercial use above that. Running locally prints
-> a license warning; that is expected. For an Apache-2.0 alternative see
-> [the note at the end](#license).
-
+> **MediatR 14 is commercially licensed.** 
 ---
 
 ## Project Structure
@@ -143,19 +138,3 @@ persistence rather than a mocked data layer.
 ## License
 
 Released under the [MIT License](LICENSE), which covers this repository's own source only.
-
-**MediatR 14 is the exception.** It carries its own commercial license and is not covered by
-this repo's MIT grant. To avoid the question entirely, downgrade to **12.4.1** (the last
-Apache-2.0 release) — two changes:
-
-1. Set `<PackageReference Include="MediatR" Version="12.4.1" />` in `Movies.Application.csproj`
-   and `Movies.Api.csproj`.
-2. In `src/Movies.Application/Behaviours/ValidationBehaviour.cs`:
-   ```diff
-   - var response = await next(cancellationToken);
-   + var response = await next();
-   ```
-
-Everything else — `IMediator`, `IRequestHandler`, `AddMediatR`, `AddOpenBehavior` — is identical
-across both versions. The trade-off is that 12.x's `RequestHandlerDelegate` takes no
-`CancellationToken`, so the pipeline stops forwarding it.
