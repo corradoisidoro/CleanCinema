@@ -1,4 +1,4 @@
-import type { Axios, AxiosResponse } from "axios";
+import type { AxiosResponse } from "axios";
 import type { MovieDto } from "../models/movieDto";
 import type { GetMoviesResponse } from "../models/getMoviesResponse";
 import axios from "axios";

@@ -1,4 +1,4 @@
-import axios, { Axios, type AxiosResponse } from "axios";
+import axios, { type AxiosResponse } from "axios";
 
 let isInterceptorSetup = false;
 
@@ -8,7 +8,7 @@ export const setupErrorHandlingInterceptor = () => {
       (response: AxiosResponse) => response,
       (error) => {
         if (error.response) {
-          const statusCode = error.response.statusCode;
+          const statusCode = error.response.status;
           const data = error.response.data;
 
           switch (statusCode) {
