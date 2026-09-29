@@ -10,7 +10,9 @@ TypeScript)**. It exists to be read — the whole application is ~1,500 lines, s
 every layer end to end without wading through boilerplate.
 
 > [!IMPORTANT]
-> **MediatR 14 is commercially licensed.**
+> **MediatR 14 is commercially licensed.** It is a third-party dependency, not part of this
+> repository's source, so the MIT license below does not cover it. See
+> [License](#license) for details.
 
 ---
 
@@ -146,3 +148,11 @@ persistence rather than a mocked data layer.
 ## License
 
 Released under the [MIT License](LICENSE), which covers this repository's own source only.
+
+**MediatR is the exception.** The project depends on MediatR 14, which Lucky Penny Software
+licenses commercially: free for individuals, open-source projects, non-profits, and organizations
+under $5M annual revenue, paid above that. Running the app prints a license warning — that is
+expected, not a problem with your setup. Nothing else in this repository carries third-party
+license terms.
+
+To avoid the question entirely, downgrade to **12.4.1**, the last Apache-2.0 release.
