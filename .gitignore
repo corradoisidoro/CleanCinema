@@ -70,7 +70,6 @@ lerna-debug.log*
 *.suo
 *.ntvs*
 *.njsproj
-*.sln
 *.sw?
 
 node_modules
@@ -78,3 +77,5 @@ dist
 dist-ssr
 *.local
 *.db
+*.db-shm
+*.db-wal
