@@ -8,6 +8,6 @@ public class CustomValidationException : Exception
     {
         ValidationErrors = validationErrors;
     }
-    
+
     public List<ValidationError> ValidationErrors {get; set;}
 }

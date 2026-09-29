@@ -12,7 +12,7 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, int
     {
         _moviesDbContext = moviesDbContext;
     }
-    
+
     public async Task<int> Handle(CreateMovieCommand request, CancellationToken cancellationToken)
     {
         var movie = new Movie
@@ -22,10 +22,10 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand, int
             Description = request.Description,
             CreatedDate = DateTime.UtcNow
         };
-        
+
         await _moviesDbContext.Movies.AddAsync(movie, cancellationToken);
         await _moviesDbContext.SaveChangesAsync(cancellationToken);
-        
+
         return movie.Id;
     }
 }

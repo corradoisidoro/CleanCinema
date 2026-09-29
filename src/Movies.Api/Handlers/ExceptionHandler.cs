@@ -26,7 +26,7 @@ public class ExceptionHandler : IExceptionHandler
         }
 
         var problemDetails = CreateProblemDetails(exception);
-        
+
         if (problemDetails.Status >= StatusCodes.Status500InternalServerError)
         {
             _logger.LogError(exception, "Unhandled exception while processing {Method} {Path}",
@@ -50,7 +50,7 @@ public class ExceptionHandler : IExceptionHandler
         await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
         return true;
     }
-    
+
     private static ProblemDetails CreateProblemDetails(Exception exception)
     {
         ProblemDetails problemDetails = exception switch

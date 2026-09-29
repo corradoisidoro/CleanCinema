@@ -14,7 +14,7 @@ public class GetMoviesQueryHandler : IRequestHandler<GetMoviesQuery, GetMoviesRe
     {
         _moviesDbContext = moviesDbContext;
     }
-    
+
     public async Task<GetMoviesResponse> Handle(GetMoviesQuery request, CancellationToken cancellationToken)
     {
         var movies = await _moviesDbContext.Movies.ToListAsync(cancellationToken);

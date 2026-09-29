@@ -16,7 +16,7 @@ public class GetMovieByIdQueryHandler : IRequestHandler<GetMovieByIdQuery, GetMo
     {
         _moviesDbContext = moviesDbContext;
     }
-    
+
     public async Task<GetMovieByIdResponse> Handle(GetMovieByIdQuery request, CancellationToken cancellationToken)
     {
         var movie = await _moviesDbContext.Movies.FirstOrDefaultAsync(x=> x.Id == request.Id, cancellationToken);
@@ -24,7 +24,7 @@ public class GetMovieByIdQueryHandler : IRequestHandler<GetMovieByIdQuery, GetMo
         {
             throw new NotFoundException($"{nameof(Movie)} with {nameof(Movie.Id)}: {request.Id} was not found in database");
         }
-        
+
         return movie.Adapt<GetMovieByIdResponse>();
     }
 }

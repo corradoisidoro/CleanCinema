@@ -20,15 +20,15 @@ public class DeleteMovieCommandHandler : IRequestHandler<DeleteMovieCommand, Uni
     {
         var movieToDelete =
             await _moviesDbContext.Movies.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-        
+
         if (movieToDelete is null)
         {
             throw new NotFoundException($"{nameof(Movie)} with {nameof(Movie.Id)}: {request.Id} was not found in database");
         }
-        
+
         _moviesDbContext.Movies.Remove(movieToDelete);
         await _moviesDbContext.SaveChangesAsync(cancellationToken);
-        
+
         return Unit.Value;
     }
 }

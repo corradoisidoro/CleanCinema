@@ -16,14 +16,14 @@ public static class DependencyInjection
             cf.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             cf.AddOpenBehavior(typeof(ValidationBehaviour<,>));
         });
-        
+
         MappingConfig.Configure();
         var config = TypeAdapterConfig.GlobalSettings;
         config.RequireExplicitMapping = true;
         config.Scan(Assembly.GetExecutingAssembly());
         services.AddSingleton(config);
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        
+
         return services;
     }
 }

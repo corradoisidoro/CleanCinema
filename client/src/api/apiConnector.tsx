@@ -6,7 +6,7 @@ import { API_BASE_URL } from "../../config";
 import type { GetMovieByIdResponse } from "../models/getMovieByIdResponse";
 
 const apiConnector = {
-  
+
   getMovies: async (): Promise<MovieDto[]> => {
       const response: AxiosResponse<GetMoviesResponse> = await axios.get(`${API_BASE_URL}/movies`);
       // Timestamps are passed through untouched. Truncating to "yyyy-MM-dd"
@@ -14,7 +14,7 @@ const apiConnector = {
       // midnight and render the previous day for every negative UTC offset.
       return response.data.movieDtos;
   },
-  
+
   createMovie: async (movie: MovieDto): Promise<void> => {
       await axios.post<number>(`${API_BASE_URL}/movies`, movie);
   },
