@@ -1,4 +1,4 @@
-# 🎬 CineStack – Full-Stack Clean Architecture Reference
+# 🎬 CleanCinema – Full-Stack Clean Architecture Reference
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![.NET](https://img.shields.io/badge/.NET-10-blue)](https://dotnet.microsoft.com)
@@ -26,7 +26,7 @@ It is intentionally small (≈900 LOC) so you can read the whole thing in one si
 This project is organized as a monorepo with separate directories for the client-side (React) and server-side (.NET) applications.
 
 ```plaintext
-/cine-stack/
+/cleancinema/
 ├─ client/                  # React + Vite frontend
 │  ├─ src/
 │  │  ├─ api/               # API connector (Axios)
@@ -108,8 +108,8 @@ You will need the following software installed on your machine:
 First, clone the repository to your local machine using Git and navigate into the project directory:
 
 ```bash
-git clone https://github.com/corradoisidoro/cine-stack.git
-cd cine-stack
+git clone https://github.com/corradoisidoro/cleancinema.git
+cd cleancinema
 ```
 
 ---
