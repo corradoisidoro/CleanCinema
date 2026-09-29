@@ -6,7 +6,7 @@
 [![Node](https://img.shields.io/badge/Node-20+-green)](https://nodejs.org)
 
 A small Clean Architecture sample: **ASP.NET Core Minimal API (.NET 10)** + **React (Vite +
-TypeScript)**. It exists to be read — the whole application is ~1,500 lines, so you can follow
+TypeScript)**. It exists to be read — the whole application is ~1,700 lines, so you can follow
 every layer end to end without wading through boilerplate.
 
 ![The movie list, with a row per film and a create button above the table](docs/screenshot.png)
