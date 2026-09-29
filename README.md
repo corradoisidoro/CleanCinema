@@ -20,7 +20,7 @@ every layer end to end without wading through boilerplate.
 ## Project Structure
 
 ```plaintext
-/cine-stack/
+/CleanCinema/
 ├─ client/                     # React + Vite
 │  ├─ src/
 │  │  ├─ api/                  # Axios connector
@@ -91,8 +91,8 @@ a central `IExceptionHandler`.
 ### 1. Clone
 
 ```bash
-git clone https://github.com/corradoisidoro/cine-stack.git
-cd cine-stack
+git clone https://github.com/corradoisidoro/CleanCinema.git
+cd CleanCinema
 ```
 
 ### 2. Backend
