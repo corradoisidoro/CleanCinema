@@ -9,11 +9,10 @@ const apiConnector = {
   
   getMovies: async (): Promise<MovieDto[]> => {
       const response: AxiosResponse<GetMoviesResponse> = await axios.get(`${API_BASE_URL}/movies`);
-      const movies = response.data.movieDtos.map((movie) => ({
-        ...movie,
-        createdDate: movie.createdDate?.slice(0, 10) ?? "",
-      }));
-      return movies;
+      // Timestamps are passed through untouched. Truncating to "yyyy-MM-dd"
+      // here would make `new Date()` in formatDate() read it back as UTC
+      // midnight and render the previous day for every negative UTC offset.
+      return response.data.movieDtos;
   },
   
   createMovie: async (movie: MovieDto): Promise<void> => {

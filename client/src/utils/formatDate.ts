@@ -1,46 +1,33 @@
 /**
  * Formats a movie date for display.
  *
- * The API returns an invariant-culture `MM/dd/yyyy HH:mm:ss` string, which
- * is not a format `new Date()` reliably parses. The components are read out
- * and passed to the Date constructor individually, which builds a local-time
- * date and therefore never shifts the rendered day.
+ * The API serialises `DateTime` with System.Text.Json, which emits ISO-8601
+ * (e.g. `2026-09-29T10:10:44.9925205`). `new Date()` parses that directly,
+ * and because the value carries a time component the browser resolves it to
+ * an exact instant and renders it in the reader's own timezone - which is
+ * the behaviour you want for a "when was this added" column.
  *
- * ISO-8601 input is also accepted, so the helper keeps working if the API
- * later switches to `DateTime` JSON serialisation.
+ * Truncating the value to `yyyy-MM-dd` before it gets here would be wrong:
+ * a date-only string is defined as UTC midnight, so every reader west of
+ * Greenwich would be shown the previous day.
+ *
+ * The legacy branch below exists only for the older `MM/dd/yyyy HH:mm:ss`
+ * shape that `DateTime.ToString()` produces. `new Date()` cannot be trusted
+ * on that format in every engine, so its parts are read out individually and
+ * fed to the constructor, which builds a local-time date and never shifts
+ * the rendered day.
  */
-const SERVER_FORMAT = /^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?$/;
+const LEGACY_SERVER_FORMAT =
+  /^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?$/;
 
 export function formatDate(value: string | undefined): string {
   if (!value) {
-    return "—";
+    return "-";
   }
 
-  const match = SERVER_FORMAT.exec(value.trim());
-  if (!match) {
-    // Not the server format: try a standard parse before giving up.
-    const fallback = new Date(value);
-    if (Number.isNaN(fallback.getTime())) {
-      return value;
-    }
-    return fallback.toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  }
-
-  const [, month, day, year, hour, minute, second] = match;
-  const parsed = new Date(
-    Number(year),
-    Number(month) - 1,
-    Number(day),
-    Number(hour ?? 0),
-    Number(minute ?? 0),
-    Number(second ?? 0)
-  );
-
-  if (Number.isNaN(parsed.getTime())) {
+  const parsed = parse(value.trim());
+  if (!parsed) {
+    // Unrecognised: show it verbatim rather than "Invalid Date".
     return value;
   }
 
@@ -49,4 +36,22 @@ export function formatDate(value: string | undefined): string {
     month: "short",
     day: "numeric",
   });
+}
+
+function parse(value: string): Date | undefined {
+  const legacy = LEGACY_SERVER_FORMAT.exec(value);
+  if (legacy) {
+    const [, month, day, year, hour, minute, second] = legacy;
+    return new Date(
+      Number(year),
+      Number(month) - 1,
+      Number(day),
+      Number(hour ?? 0),
+      Number(minute ?? 0),
+      Number(second ?? 0)
+    );
+  }
+
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? undefined : parsed;
 }
