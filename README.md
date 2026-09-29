@@ -10,7 +10,8 @@ TypeScript)**. It exists to be read — the whole application is ~1,500 lines, s
 every layer end to end without wading through boilerplate.
 
 > [!IMPORTANT]
-> **MediatR 14 is commercially licensed.** 
+> **MediatR 14 is commercially licensed.**
+
 ---
 
 ## Project Structure
