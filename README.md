@@ -20,7 +20,7 @@ every layer end to end without wading through boilerplate.
 ## Project Structure
 
 ```plaintext
-/cleancinema/
+/cine-stack/
 ├─ client/                     # React + Vite
 │  ├─ src/
 │  │  ├─ api/                  # Axios connector
@@ -45,13 +45,18 @@ every layer end to end without wading through boilerplate.
 
 ### Dependency direction
 
-Dependencies point inward only. `Domain` and `Contracts` reference nothing and know nothing
-about HTTP or EF Core.
+Dependencies point inward only, with one deliberate exception: `Movies.Application` takes a
+direct project reference to `Movies.Infrastructure`, so its handlers inject `MoviesDbContext`
+rather than talking through repository interfaces. That keeps the sample small enough to read
+end to end, but it means the Application layer is not persistence-agnostic. A production version
+would declare `IMovieRepository` in Application and implement it in Infrastructure.
+`Domain` and `Contracts` reference nothing and know nothing about HTTP or EF Core.
 
 ```plaintext
 Movies.Api ──────────► Movies.Application ──────────► Movies.Domain
-      │                        │      └──────────────► Movies.Contracts
-      └──► Movies.Infrastructure ────────────────────► Movies.Domain
+      │                        │      ├──────────────► Movies.Contracts
+      │                        │      └──────────────► Movies.Infrastructure ──► Movies.Domain
+      └──► Movies.Infrastructure
 
 Movies.Tests ──► Movies.Application, Movies.Infrastructure
 ```
@@ -86,8 +91,8 @@ a central `IExceptionHandler`.
 ### 1. Clone
 
 ```bash
-git clone https://github.com/corradoisidoro/cleancinema.git
-cd cleancinema
+git clone https://github.com/corradoisidoro/cine-stack.git
+cd cine-stack
 ```
 
 ### 2. Backend
