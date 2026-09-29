@@ -9,6 +9,8 @@ A small Clean Architecture sample: **ASP.NET Core Minimal API (.NET 10)** + **Re
 TypeScript)**. It exists to be read — the whole application is ~1,500 lines, so you can follow
 every layer end to end without wading through boilerplate.
 
+![The movie list, with a row per film and a create button above the table](docs/screenshot.png)
+
 > [!IMPORTANT]
 > **MediatR 14 is commercially licensed.** It is a third-party dependency, not part of this
 > repository's source, so the MIT license below does not cover it. See
