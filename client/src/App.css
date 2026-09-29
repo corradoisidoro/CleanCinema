@@ -1,7 +1,421 @@
+/*
+ * CleanCinema design layer.
+ *
+ * Loaded after semantic.min.css (see main.tsx) so these rules win on
+ * specificity ties. The app deliberately avoids Semantic's colour
+ * modifiers (`positive`, `negative`, `inverted`, `color="red"`): its
+ * stock palette puts white text on #fbbd08 (1.7:1) and #21ba45 (2.57:1),
+ * both below the WCAG AA 4.5:1 threshold. Semantic is still used for
+ * behaviour (Form, Loader, Message, Modal); only its appearance is
+ * replaced here.
+ *
+ * Every foreground/background pair below was checked for contrast.
+ */
+
+:root {
+  /* surfaces */
+  --cc-bg: #f6f7f9;
+  --cc-surface: #ffffff;
+  --cc-surface-alt: #f9fafb;
+  --cc-border: #e4e7ec;
+
+  /* text */
+  --cc-text: #101828; /* 17.75:1 on white */
+  --cc-text-muted: #667085; /*  4.97:1 on white */
+  --cc-text-subtle: #475467; /*  7.60:1 on white */
+
+  /* single accent, used for primary actions only */
+  --cc-accent: #2563eb; /* white on it: 5.17:1 */
+  --cc-accent-hover: #1d4ed8; /* white on it: 6.70:1 */
+  --cc-accent-soft: #eff4ff;
+  --cc-accent-soft-text: #2563eb; /* 4.69:1 on the soft tint */
+
+  /* destructive, reserved for confirmation only */
+  --cc-danger: #d92d20; /* 4.83:1 on white */
+  --cc-danger-hover: #b42318;
+  --cc-danger-soft: #fef3f2;
+  --cc-danger-soft-text: #b42318; /* 6.05:1 on the soft tint */
+
+  /* non-text boundary for form fields: 3.18:1, clears WCAG 1.4.11 */
+  --cc-field-border: #8791a3;
+
+  --cc-radius: 10px;
+  --cc-radius-sm: 7px;
+  --cc-shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.1);
+  --cc-shadow-lg: 0 12px 32px rgba(16, 24, 40, 0.14);
+  --cc-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
 body {
-    background-color: #eaeaea !important;
+  background-color: var(--cc-bg);
+  font-family: var(--cc-font);
+  color: var(--cc-text);
+  -webkit-font-smoothing: antialiased;
 }
 
 .container-style {
-    margin-top: 7em;
+  margin: 3.5rem auto 4rem;
+  padding: 0 1.25rem;
+  max-width: 1080px;
+}
+
+/* ---------------------------------------------------------------- header */
+
+.cc-page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.cc-page-title {
+  font-size: 1.5rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--cc-text);
+}
+
+.cc-page-subtitle {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  color: var(--cc-text-muted);
+}
+
+.cc-count {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ----------------------------------------------------------------- table */
+
+.cc-card {
+  background: var(--cc-surface);
+  border: 1px solid var(--cc-border);
+  border-radius: var(--cc-radius);
+  box-shadow: var(--cc-shadow);
+  overflow: hidden;
+}
+
+.cc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.cc-table thead th {
+  background: var(--cc-surface-alt);
+  border-bottom: 1px solid var(--cc-border);
+  padding: 0.75rem 1.25rem;
+  text-align: left;
+  font-size: 0.6875rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cc-text-subtle);
+  white-space: nowrap;
+}
+
+.cc-table thead th.cc-col-actions {
+  text-align: right;
+}
+
+.cc-table tbody td {
+  padding: 0.875rem 1.25rem;
+  border-bottom: 1px solid var(--cc-border);
+  vertical-align: middle;
+  color: var(--cc-text);
+}
+
+.cc-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.cc-table tbody tr:hover td {
+  background: var(--cc-surface-alt);
+}
+
+.cc-cell-id {
+  color: var(--cc-text-muted);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.875rem;
+  width: 1%;
+  white-space: nowrap;
+}
+
+.cc-cell-title {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cc-cell-description {
+  color: var(--cc-text-muted);
+  line-height: 1.45;
+  /* keep long synopses from making rows ragged */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-width: 16rem;
+}
+
+.cc-cell-date {
+  color: var(--cc-text-muted);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.cc-cell-actions {
+  text-align: right;
+  white-space: nowrap;
+  width: 1%;
+}
+
+/* category pill */
+.cc-pill {
+  display: inline-block;
+  padding: 0.1875rem 0.625rem;
+  border-radius: 999px;
+  background: var(--cc-accent-soft);
+  color: var(--cc-accent-soft-text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.cc-empty {
+  padding: 3.5rem 1.25rem;
+  text-align: center;
+  color: var(--cc-text-muted);
+}
+
+.cc-empty strong {
+  display: block;
+  color: var(--cc-text);
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+/* --------------------------------------------------------------- buttons */
+
+/* Neutralises Semantic's base .ui.button, then styles from scratch. */
+.ui.button.cc-btn {
+  background: var(--cc-surface);
+  color: var(--cc-text);
+  border: 1px solid var(--cc-border);
+  border-radius: var(--cc-radius-sm);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+  font-family: var(--cc-font);
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1;
+  text-transform: none;
+  text-shadow: none;
+  min-height: 0;
+  padding: 0.5625rem 0.875rem;
+  margin: 0;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.ui.button.cc-btn:hover {
+  background: var(--cc-surface-alt);
+  color: var(--cc-text);
+  border-color: var(--cc-field-border);
+}
+
+.ui.button.cc-btn:focus-visible {
+  outline: 2px solid var(--cc-accent);
+  outline-offset: 2px;
+}
+
+.ui.button.cc-btn:disabled,
+.ui.button.cc-btn[disabled] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* the one accent, for primary actions only */
+.ui.button.cc-btn-primary {
+  background: var(--cc-accent);
+  border-color: var(--cc-accent);
+  color: #ffffff;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.08);
+}
+
+.ui.button.cc-btn-primary:hover {
+  background: var(--cc-accent-hover);
+  border-color: var(--cc-accent-hover);
+  color: #ffffff;
+}
+
+/* icon-only, used for the row actions */
+.ui.button.cc-btn-icon {
+  padding: 0.5rem;
+  width: 2.125rem;
+  height: 2.125rem;
+}
+
+.ui.button.cc-btn-icon .icon {
+  margin: 0 0 0 0;
+  font-size: 0.9375em;
+}
+
+.cc-actions {
+  display: inline-flex;
+  gap: 0.5rem;
+}
+
+/* ----------------------------------------------------------------- forms */
+
+.cc-form-card {
+  background: var(--cc-surface);
+  border: 1px solid var(--cc-border);
+  border-radius: var(--cc-radius);
+  box-shadow: var(--cc-shadow);
+  padding: 1.75rem;
+  max-width: 34rem;
+  margin: 0 auto;
+}
+
+.ui.form .cc-field,
+.ui.form .field.cc-field {
+  margin-bottom: 1.125rem;
+}
+
+.cc-label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--cc-text-subtle);
+  margin-bottom: 0.375rem;
+}
+
+.ui.form input.cc-input,
+.ui.form textarea.cc-input {
+  font-family: var(--cc-font);
+  font-size: 0.9375rem;
+  color: var(--cc-text);
+  background: var(--cc-surface);
+  border: 1px solid var(--cc-field-border);
+  border-radius: var(--cc-radius-sm);
+  box-shadow: none;
+  padding: 0.625rem 0.75rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ui.form input.cc-input::placeholder,
+.ui.form textarea.cc-input::placeholder {
+  color: #98a2b3;
+}
+
+.ui.form input.cc-input:focus,
+.ui.form textarea.cc-input:focus {
+  border-color: var(--cc-accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.16);
+}
+
+.ui.form textarea.cc-input {
+  min-height: 7rem;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.cc-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.625rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--cc-border);
+}
+
+/* --------------------------------------------------------------- messages */
+
+.ui.message.cc-alert {
+  font-family: var(--cc-font);
+  font-size: 0.875rem;
+  border-radius: var(--cc-radius-sm);
+  box-shadow: none;
+  border: 1px solid;
+  margin: 0 0 1.25rem;
+}
+
+.ui.message.cc-alert.cc-alert-error {
+  background: var(--cc-danger-soft);
+  color: var(--cc-danger-soft-text);
+  border-color: #fda29b;
+}
+
+.ui.message.cc-alert.cc-alert-error .header {
+  color: var(--cc-danger-soft-text);
+}
+
+/* per-row error, kept compact so it does not shift the row height much */
+.cc-row-error {
+  display: block;
+  margin-top: 0.375rem;
+  font-size: 0.75rem;
+  color: var(--cc-danger-soft-text);
+}
+
+/* ----------------------------------------------------------------- modal */
+
+.cc-modal.ui.modal > .content {
+  font-family: var(--cc-font);
+  border-radius: var(--cc-radius) var(--cc-radius) 0 0;
+  padding-top: 1.75rem;
+}
+
+.cc-modal.ui.modal > .actions {
+  background: var(--cc-surface-alt);
+  border-top: 1px solid var(--cc-border);
+  border-radius: 0 0 var(--cc-radius) var(--cc-radius);
+  padding: 1rem 1.25rem;
+}
+
+.cc-modal-title {
+  font-size: 1.125rem;
+  font-weight: 650;
+  color: var(--cc-text);
+  margin-bottom: 0.5rem;
+}
+
+.cc-modal-body {
+  font-size: 0.9375rem;
+  color: var(--cc-text-muted);
+  line-height: 1.55;
+}
+
+.cc-modal-body strong {
+  color: var(--cc-text);
+}
+
+.cc-modal.ui.modal {
+  border-radius: var(--cc-radius);
+  box-shadow: var(--cc-shadow-lg);
+  overflow: hidden;
+}
+
+.cc-modal.ui.modal > .header {
+  background: var(--cc-surface);
+  border-bottom: none;
+  font-family: var(--cc-font);
+}
+
+.ui.button.cc-btn-danger {
+  background: var(--cc-danger);
+  border-color: var(--cc-danger);
+  color: #ffffff;
+}
+
+.ui.button.cc-btn-danger:hover {
+  background: var(--cc-danger-hover);
+  border-color: var(--cc-danger-hover);
+  color: #ffffff;
 }
